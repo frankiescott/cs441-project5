@@ -44,6 +44,16 @@ public class MainActivity extends AppCompatActivity {
 
         calculateTotal();
         configureClearButton();
+        configureAddButton();
+    }
+
+    public void configureAddButton() {
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add();
+            }
+        });
     }
 
     public void configureClearButton() {
@@ -56,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void calculateTotal() {
-        int totalCount = 0;
-        for (int i: array) {
-            totalCount += i;
+        Integer totalCount = 0;
+        for (String i: arrayList) {
+            totalCount += Integer.parseInt(i);
         }
         total.setText(String.valueOf(totalCount));
     }
@@ -67,5 +77,13 @@ public class MainActivity extends AppCompatActivity {
         arrayList.clear();
         adapter.notifyDataSetChanged();
         total.setText("0");
+    }
+
+    public void add() {
+        String userInput = input.getText().toString();
+        arrayList.add(userInput);
+        adapter.notifyDataSetChanged();
+        calculateTotal();
+        input.setText("");
     }
 }

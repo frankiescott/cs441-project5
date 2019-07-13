@@ -13,8 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity implements ListChanged {
     private Button add, clear;
     private EditText input;
     private RecyclerView list;
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         recyclerView = findViewById(R.id.list);
-        adapter = new RecyclerAdapter(this, arrayList);
+        adapter = new RecyclerAdapter(this, arrayList, this);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

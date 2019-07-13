@@ -2,6 +2,7 @@ package edu.binghamton.project5;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,10 @@ public class MainActivity extends AppCompatActivity {
     private EditText input;
     private ListView list;
     private TextView total;
+    private ArrayList<String> arrayList;
+    private ArrayAdapter<String> adapter;
+
+    //this will be used to load values upon application startup but afterwards use the ArrayList
     int[] array = {1, 2, 3, 4, 5, 6, 7, 8};
 
     @Override
@@ -28,14 +33,26 @@ public class MainActivity extends AppCompatActivity {
         input = findViewById(R.id.input);
         list = findViewById(R.id.list);
         total = findViewById(R.id.total);
-        ArrayList<String> arrayList = new ArrayList<String>();
+
+        arrayList = new ArrayList<String>();
         for (int i: array) {
             arrayList.add(String.valueOf(i));
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, arrayList);
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, arrayList);
         list.setAdapter(adapter);
 
         calculateTotal();
+        configureClearButton();
+    }
+
+    public void configureClearButton() {
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clear();
+            }
+        });
     }
 
     public void calculateTotal() {
@@ -44,5 +61,11 @@ public class MainActivity extends AppCompatActivity {
             totalCount += i;
         }
         total.setText(String.valueOf(totalCount));
+    }
+
+    public void clear() {
+        arrayList.clear();
+        adapter.notifyDataSetChanged();
+        total.setText("0");
     }
 }

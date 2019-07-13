@@ -12,10 +12,8 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     private List<String> mData;
     private LayoutInflater mInflater;
-    private ItemClickListener mClickListener;
-    private ListChanged responder;
+    private ListChanged responder; //used to talk to main activity when data changes
 
-    // data is passed into the constructor
     RecyclerAdapter(Context context, List<String> data, ListChanged responder) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
@@ -50,16 +48,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         @Override
         public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+
         }
-    }
-
-    void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
-    }
-
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
     }
 
     public void delete(int position) {

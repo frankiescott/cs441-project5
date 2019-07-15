@@ -22,48 +22,62 @@ public class MainActivity extends AppCompatActivity implements ListChanged {
 
     private Button add, clear;
     private EditText input;
-    private RecyclerView list;
     private TextView total;
 
     private ArrayList<String> arrayList;
     private RecyclerAdapter adapter;
     private RecyclerView recyclerView;
 
-    //this will be used to load values upon application startup but afterwards use the ArrayList
-    ArrayList<Integer> array = new ArrayList<>();
+    //this will be used to load values upon application startup
+    ArrayList<Integer> values;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //load data from file
         filename = getFilesDir().getPath() + "/data.txt";
         try {
-            loadData();
+            values = loadData(); //returns ArrayList
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        add = findViewById(R.id.add);
-        clear = findViewById(R.id.clear);
-        input = findViewById(R.id.input);
-        total = findViewById(R.id.total);
-
+        //populate the ArrayList that will be linked to the adapter
         arrayList = new ArrayList<>();
-        for (Integer i: array) {
-            arrayList.add(String.valueOf(i));
+        if (values.size() != 0) {
+            for (Integer i : values) {
+                arrayList.add(String.valueOf(i));
+            }
         }
 
+        //grab handlers for widgets and configure buttons
+        initWidgets();
+
+        //set up recycler view and it's adapter
         recyclerView = findViewById(R.id.list);
         adapter = new RecyclerAdapter(this, arrayList, this);
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //used for swipe to delete
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
         recyclerView.refreshDrawableState();
 
+        //will update total if data was loaded from file
         calculateTotal();
+    }
+
+    public void initWidgets() {
+        add = findViewById(R.id.add);
+        clear = findViewById(R.id.clear);
+        input = findViewById(R.id.input);
+        total = findViewById(R.id.total);
+
         configureClearButton();
         configureAddButton();
     }
@@ -130,19 +144,19 @@ public class MainActivity extends AppCompatActivity implements ListChanged {
         for (String i: arrayList) {
             out = out + i + " ";
         }
-        System.out.println("Saving Data: " + out);
         fout.write(out.getBytes());
         fout.close();
     }
 
-    public void loadData() throws IOException {
+    public ArrayList<Integer> loadData() throws IOException {
+        ArrayList<Integer> readValues = new ArrayList<>();
         File f = new File(filename);
         if (!f.exists()) {
             f.createNewFile();
-            return;
+            return readValues; //return empty arraylist
         }
         if (f.length() == 0) {
-            return;
+            return readValues; //return empty arraylist
         }
 
         FileInputStream fin = new FileInputStream(new File(filename));
@@ -153,7 +167,8 @@ public class MainActivity extends AppCompatActivity implements ListChanged {
         }
         String[] splitData = data.split(" ");
         for (String i: splitData) {
-            array.add(Integer.valueOf(i));
+            readValues.add(Integer.valueOf(i));
         }
+        return readValues;
     }
 }

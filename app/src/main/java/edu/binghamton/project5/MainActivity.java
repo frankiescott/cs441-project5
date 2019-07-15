@@ -127,10 +127,12 @@ public class MainActivity extends AppCompatActivity implements ListChanged {
 
     public void add() {
         String userInput = input.getText().toString();
-        arrayList.add(userInput);
-        adapter.notifyDataSetChanged();
-        calculateTotal();
-        input.setText("");
+        if (userInput.length() != 0) {
+            arrayList.add(userInput);
+            adapter.notifyDataSetChanged();
+            calculateTotal();
+            input.setText("");
+        }
     }
 
     public void saveData() throws IOException {

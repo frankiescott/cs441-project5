@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.support.design.widget.Snackbar;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements ListChanged {
         adapter.notifyDataSetChanged();
         total.setText("0");
         input.setText("");
+        Snackbar.make(findViewById(android.R.id.content), "Data cleared", Snackbar.LENGTH_SHORT).show();
         try {
             saveData();
         } catch (IOException e) {
@@ -133,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements ListChanged {
             adapter.notifyDataSetChanged();
             calculateTotal();
             input.setText("");
+            Snackbar.make(findViewById(android.R.id.content), "Added " + userInput + "!", Snackbar.LENGTH_SHORT).show();
         }
     }
 

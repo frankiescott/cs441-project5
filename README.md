@@ -6,12 +6,14 @@ Building this project was rather quick. The initial layout with the widgets was 
 
 The trickiest part was finding a way for the adapter to communicate with the main activity in order to update the running total when an item is deleted by swiping. In order to overcome this, I created an interface that defines the `calculateTotal()` for the main activity to implement. When the adapter is instantiated, I pass the main activity's context to the constructor so the adapter has a hold on the `calculateTotal()` method. When the swipe to delete callback class initiates the adapter's `delete()` method, the adapter calls upon the `calculateTotal()` method made available through the interface. 
 
+Finally, I implemented a function that saves the data to the device's internal storage every time a number is added, removed, or if the list is cleared. This data is then loaded upon application startup.
+
 # Development Schedule
 
 July 11th - Project initiation and layout development
 
-July 13th - Widget functionality 
+July 13th - Widget and interface functionality 
 
-July 15th - Loading & saving data
+July 15th - Loading & saving data and code cleanup
 
-July 17th - 
+July 17th - Additional non-required features

@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements ListChanged {
         arrayList.clear();
         adapter.notifyDataSetChanged();
         total.setText("0");
+        input.setText("");
         try {
             saveData();
         } catch (IOException e) {

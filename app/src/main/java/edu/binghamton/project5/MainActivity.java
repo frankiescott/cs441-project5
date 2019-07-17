@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements ListChanged {
     private RecyclerAdapter adapter;
     private RecyclerView recyclerView;
 
+    private boolean showedMessage = false;
+
     //this will be used to load values upon application startup
     ArrayList<Integer> values;
 
@@ -81,6 +83,16 @@ public class MainActivity extends AppCompatActivity implements ListChanged {
 
         configureClearButton();
         configureAddButton();
+
+        input.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (showedMessage == false) {
+                    Snackbar.make(findViewById(android.R.id.content), "Enter a positive integer", Snackbar.LENGTH_SHORT).show();
+                    showedMessage = true;
+                }
+            }
+        });
     }
 
     public void configureAddButton() {

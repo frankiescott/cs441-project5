@@ -54,6 +54,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     public void delete(int position) {
+        responder.showDelete(mData.get(position));
         mData.remove(position);
         responder.calculateTotal();
         notifyItemRemoved(position);

@@ -139,6 +139,10 @@ public class MainActivity extends AppCompatActivity implements ListChanged {
         }
     }
 
+    public void showDelete(String data) {
+        Snackbar.make(findViewById(android.R.id.content), "Removed " + data + "!", Snackbar.LENGTH_SHORT).show();
+    }
+
     public void saveData() throws IOException {
         File f = new File(filename);
         if (!f.exists()) {
